@@ -53,4 +53,4 @@ MIT
 
 # Author
 
-Sho Kusano<sho-kusano@zeny.io>
+[@rosylilly: Sho Kusano](https://github.com/rosylilly) / <sho-kusano@zeny.io>
