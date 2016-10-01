@@ -44,10 +44,10 @@ func newBodyByPart(part *multipart.Part) *Body {
 	}
 
 	for k, v := range part.Header {
-		body.Header[http.CanonicalHeaderKey(k)] = decodeHeader(v)
+		body.Header[http.CanonicalHeaderKey(k)] = decodeHeaders(v)
 	}
 
-	body.FileName = part.FileName()
+	body.FileName = decodeHeader(part.FileName())
 
 	buf := bytes.NewBuffer([]byte{})
 	_, err := io.Copy(buf, part)

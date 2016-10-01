@@ -16,7 +16,7 @@ func assertStrings(t *testing.T, actual, expected []string) {
 	}
 }
 
-func Test_decodeHeader(t *testing.T) {
+func Test_decodeHeaders(t *testing.T) {
 	src := []string{
 		"=?UTF-8?B?5pel5pys6Kqe44OG44K544OI?=",
 		"=?ISO-2022-JP?B?GyRCRnxLXDhsJUYlOSVIGyhC?=",
@@ -24,7 +24,7 @@ func Test_decodeHeader(t *testing.T) {
 		"=?SHIFT_JIS?B?k/qWe4zqg2WDWINn?=",
 	}
 
-	dst := decodeHeader(src)
+	dst := decodeHeaders(src)
 
 	assertStrings(t, dst, []string{
 		"日本語テスト",

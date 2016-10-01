@@ -24,7 +24,7 @@ func Decode(msg *mail.Message) *Message {
 	}
 
 	for key, header := range msg.Header {
-		message.Header[http.CanonicalHeaderKey(key)] = decodeHeader(header)
+		message.Header[http.CanonicalHeaderKey(key)] = decodeHeaders(header)
 	}
 
 	mediaType, params, err := mime.ParseMediaType(message.Header.Get("Content-Type"))
@@ -57,21 +57,26 @@ func Decode(msg *mail.Message) *Message {
 	return message
 }
 
-func decodeHeader(origin []string) []string {
+func decodeHeaders(origin []string) []string {
 	dst := make([]string, len(origin))
 
 	for i, header := range origin {
-		header = encodedHeaderRegexp.ReplaceAllStringFunc(header, func(src string) string {
-			if dec := encodedHeaderRegexp.FindStringSubmatch(src); len(dec) == 4 {
-				return decode(dec[3], dec[1], dec[2])
-			} else {
-				return src
-			}
-		})
-		dst[i] = header
+		dst[i] = decodeHeader(header)
 	}
 
 	return dst
+}
+
+func decodeHeader(origin string) string {
+	header := encodedHeaderRegexp.ReplaceAllStringFunc(origin, func(src string) string {
+		if dec := encodedHeaderRegexp.FindStringSubmatch(src); len(dec) == 4 {
+			return decode(dec[3], dec[1], dec[2])
+		} else {
+			return src
+		}
+	})
+
+	return header
 }
 
 func decode(s string, charset string, encoder string) string {
