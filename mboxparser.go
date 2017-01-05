@@ -7,14 +7,13 @@ import (
 )
 
 func Read(r io.Reader) (*Mbox, error) {
-	msgs, err := mbox.Read(r, false)
-	if err != nil {
-		return nil, err
-	}
-
-	messages := make([]*Message, len(msgs))
-	for i, msg := range msgs {
-		messages[i] = Decode(msg)
+	var messages []*Message
+	
+	msgs := mbox.NewScanner(r)
+	i := 0
+	for msgs.Next() {
+		messages = append(messages, Decode(msg.Message()))
+		i++
 	}
 
 	return &Mbox{
