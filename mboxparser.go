@@ -10,15 +10,19 @@ func Read(r io.Reader) (*Mbox, error) {
 	var messages []*Message
 	
 	msgs := mbox.NewScanner(r)
-	i := 0
+	buf := make([]byte, 0, 64*1024)
+	msgs.Buffer(buf, 1024*1024*100)
 	for msgs.Next() {
 		messages = append(messages, Decode(msg.Message()))
-		i++
+	}
+	// Check for an error, if so report that error.
+	if msgs.Err() != nil {
+		fmt.Printf("Possible error reading mbox:\n%v\n", msgs.Err())
 	}
 
 	return &Mbox{
 		Messages: messages,
-	}, nil
+	}, msgs.Err()
 }
 
 func ReadFile(filename string) (*Mbox, error) {
