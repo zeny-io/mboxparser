@@ -15,10 +15,6 @@ func Read(r io.Reader) (*Mbox, error) {
 	for msgs.Next() {
 		messages = append(messages, Decode(msg.Message()))
 	}
-	// Check for an error, if so report that error.
-	if msgs.Err() != nil {
-		fmt.Printf("Possible error reading mbox:\n%v\n", msgs.Err())
-	}
 
 	return &Mbox{
 		Messages: messages,
