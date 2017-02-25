@@ -8,12 +8,12 @@ import (
 
 func Read(r io.Reader) (*Mbox, error) {
 	var messages []*Message
-	
+
 	msgs := mbox.NewScanner(r)
 	buf := make([]byte, 0, 64*1024)
 	msgs.Buffer(buf, 1024*1024*100)
 	for msgs.Next() {
-		messages = append(messages, Decode(msg.Message()))
+		messages = append(messages, Decode(msgs.Message()))
 	}
 
 	return &Mbox{
