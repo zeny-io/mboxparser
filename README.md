@@ -1,5 +1,8 @@
 # mboxparser
 
+[![Build Status](https://travis-ci.org/zeny-io/mboxparser.svg?branch=master)](https://travis-ci.org/zeny-io/mboxparser)
+[![Coverage Status](https://coveralls.io/repos/github/zeny-io/mboxparser/badge.svg?branch=master)](https://coveralls.io/github/zeny-io/mboxparser?branch=master)
+
 mbox file parser for golang.
 
 # Usage
